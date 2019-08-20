@@ -1,0 +1,8 @@
+<element name="message" type="Message"/>
+<complexType name="Message">
+  <sequence>
+    <element name="name" type="string"/>
+    <element name="id" type="decimal"/>
+    <element name="text" type="string"/>
+  </sequence>
+</complexType>
