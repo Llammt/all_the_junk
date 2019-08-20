@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+             xmlns:tns="http://localhost/"
+             xmlns:xs="http://www.w3.org/2001/XMLSchema"
+             xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+             xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+             name="SmsWsdl"
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+        <xs:schema xmlns:tns="http://schemas.xmlsoap.org/wsdl/"
+                   xmlns="http://www.w3.org/2001/XMLSchema"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   elementFormDefault="qualified"
+                   targetNamespace="http://localhost/">
+            <complexType name="Message">
+                <sequence>
+                    <element name="name" type="string"/>
+                    <element name="id" type="decimal"/>
+                    <element name="text" type="string"/>
+                </sequence>
+            </complexType>
+            <element name="Request">
+                <element name="message" type="Message"/>
+            </element>
+            <element name="Response">
+                <complexType>
+                    <sequence>
+                        <element name="status" type="boolean" />
+                    </sequence>
+                </complexType>
+            </element>
+        </xs:schema>
+    </types>
+
+
+    <message name="sendMsgRequest">
+        <part name="Request" element="tns:Request" />
+    </message>
+    <message name="sendMsgResponse">
+        <part name="Response" element="tns:Response" />
+    </message>
+
+
+    <portType name="SmsServicePortType">
+        <operation name="sendMsg">
+            <input message="tns:sendMsgRequest" />
+            <output message="tns:sendMsgResponse" />
+        </operation>
+    </portType>
+
+
+    <binding name="SSServiceBinding" type="tns:SSServicePortType">
+        <soap:binding style=”rpc” transport="http://schemas.xmlsoap.org/soap/http" />
+        <operation name="sendMsg">
+            <soap:operation soapAction="" />
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+        </operation>
+    </binding>
+
+
+    <service name="SimpleSoapService">
+        <port name="SSServicePort" binding="tns:SSServiceBinding">
+            <soap:address location="http://localhost:80/main.py" />
+        </port>
+    </service>
+
+</definitions>
